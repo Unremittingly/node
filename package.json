@@ -4,7 +4,8 @@
   "main": "hello.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "getBdRank": "node cheerio/test1.js"
+    "getBdRank": "node cheerio/test1.js",
+    "selenium": "node cheerio/selenium/index.js"
   },
   "author": "",
   "license": "ISC",
