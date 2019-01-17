@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .addData{
+            display: inline-block;
+            padding: 3px 20px;
+            border-radius: 3px;
+            color: #fff;
+            cursor: pointer;
+            background: #00ddff;
+        }
+    </style>
+</head>
+<body>
+test
+<span class="addData">添加数据</span>
+<script src="shakeDown/jquery-3.0.0.min.js"></script>
+
+<script>
+    // console.log('1');
+    // let httpRequest = new XMLHttpRequest();
+    // httpRequest.open('get','http://127.0.0.1:8090/getData');
+    // httpRequest.send();
+    function addData() {
+        $.ajax({
+            url:'http://127.0.0.1:8090/addData',
+            data:{
+                str:'wold'
+            },
+            success:function (data) {
+                if(data.ok){
+                    console.log('data',data);
+                }
+            }
+        })
+    }
+    $('.addData').click(function () {
+        addData();
+    });
+
+    function getData(){
+        $.ajax({
+            url:'http://127.0.0.1:8090/getData',
+            data:{
+                str:'wold'
+            },
+            success:function (data) {
+                if(data.ok){
+                    console.log('data',data);
+                }
+            }
+        })
+    }
+    // getData();
+</script>
+</body>
+</html>

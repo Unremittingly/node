@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn{
+            display: inline-block;
+            padding: 5px 20px;
+            color: #fff;
+            background: #00ddff;
+        }
+    </style>
+</head>
+<body>
+<span id="span" class="btn">开始</span>
+<select id="select">
+
+</select>
+<script src="jquery-3.0.0.min.js"></script>
+<script>
+    $.ajax({
+        url:'http://127.0.0.1:7777/shake',
+        success:function (data) {
+            console.log('data',data);
+        },
+        error:function () {
+            
+        }
+    });
+    $.ajax({
+        url:'http://www.cwl.gov.cn/cwl_admin/kjxx/findKjxx/forIssue?name=ssq&code=2019006',
+        dataType:'jsonp',
+        success:function (data) {
+            console.log('111',data);
+        }
+    });
+    (function () {
+        $('select').html(' <option value="1">1</option>\n' +
+            '    <option value="2">2</option>\n' +
+            '    <option value="3">3</option>\n' +
+            '    <option value="4">4</option>')
+    })();
+
+</script>
+</body>
+</html>

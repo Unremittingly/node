@@ -1,0 +1,2 @@
+user:username,
+pwd:123456789abc
