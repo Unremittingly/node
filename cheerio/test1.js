@@ -104,7 +104,7 @@ app.get('/addData', function (req, res) {
 });
 
 app.listen('8090', function () {
-    console.log('服务器启动  监听8090端口');
+    console.log('服务器启动  监听8090端口,请访问获取百度当前rank排名');
 });
 
 
