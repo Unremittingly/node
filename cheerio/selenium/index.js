@@ -41,7 +41,10 @@ searchIpt.sendKeys(searchStr);
 //
 // });
 //模拟搜索点击事件
-searchBtn.click(function () {
+searchBtn.click(function (data) {
+    setTimeout(function () {
+        console.log('ffffff',data);
+    },2000)
 
 });
 
