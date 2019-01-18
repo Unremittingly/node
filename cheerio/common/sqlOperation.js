@@ -53,3 +53,4 @@ function getTime() {
 
 exports.addData = addData;
 exports.connectSql = connectMysql;
+exports.getTime = getTime;
