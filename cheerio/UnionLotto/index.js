@@ -54,14 +54,13 @@ let filter = function(html){
  }
 
  function getPeriodForFile() {
-     let periods = [];
+
      let filePath = './period.txt';
    let data =   fs.readFileSync(filePath,{
          flag: 'r',
          encoding: 'utf-8'
      });
-     periods = data.split(',');
-     return periods;
+     return  data.split(',');
  }
 function writeFile(arr) {
     let filePath = './period.txt';
