@@ -131,18 +131,18 @@ for (let i = 18151; i < 19008; i++) {
 
 let periods = getPeriodForFile();
 // periods = periods[0].concat(periods[1]);
-addDataForPeriod([periods[0],periods[1],periods[2]],1);
+addDataForPeriod([periods[0],periods[1],periods[2]],0);
 function addDataForPeriod(periods,index) {
     setTimeout(function () {
         insetData(periods[index]);
-        if(index<=periods.length){
-            console.log('periods[index]',periods[index]);
+        if(index<periods.length){
+            console.log('读取添加中中。。。，当前期数为：',periods[index]);
             addDataForPeriod(periods,++index);
             // console.log('11');
         }else{
             console.log('end');
         }
 
-    },500);
+    },1000);
 
 }
