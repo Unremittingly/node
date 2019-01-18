@@ -93,7 +93,7 @@ function insetData(num) {
             html =res.text;
             let listData =  filter(html);
 
-            return false;
+            // return false;
             let connect = connectSql();
             addData(listData,connect)
         }
@@ -113,25 +113,18 @@ function addData(data,connect) {
         let sql = 'INSERT INTO unionlotto(red,blue,period,c_time,c_date,first_money,first_num) VALUES' + value;
         connect.query(sql,function (error,result) {
             if (error) {
-                console.log('数据添加失败', error);
+                console.log('数据添加失败');
             } else {
-                console.log('result', result);
+                console.log('数据添加成功');
             }
             connect.end();
         })
     }
 }
 
-for (let i = 18151; i < 19008; i++) {
-
-    // insetData(i);
-
-}
-// insetData(18151);
-
 let periods = getPeriodForFile();
 // periods = periods[0].concat(periods[1]);
-addDataForPeriod([periods[0],periods[1],periods[2]],0);
+addDataForPeriod(periods,0);
 function addDataForPeriod(periods,index) {
     setTimeout(function () {
         insetData(periods[index]);
