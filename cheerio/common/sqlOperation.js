@@ -4,7 +4,7 @@ const mysql = require('mysql');
 let sameId = 0;
 let connection = null;
 
-function connectMysql() {
+const connectMysql = function() {
     connection = mysql.createConnection({
         host: 'localhost',
         port: '3306',
@@ -13,11 +13,11 @@ function connectMysql() {
         database: 'test'
     });
     connection.connect();
-}
+    return connection;
+};
 
-const addData = function (data) {
+const addData = function (data,operation) {
     if (connection) {
-
         let right = data.right;
         let time = getTime() / 1000;
         let value = '';
@@ -52,3 +52,4 @@ function getTime() {
 }
 
 exports.addData = addData;
+exports.connectSql = connectMysql;

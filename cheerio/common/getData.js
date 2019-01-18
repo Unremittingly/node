@@ -1,11 +1,13 @@
 const http = require('http');
 
+
 const  getData = function (params,filter,callback) {
 
     let  url = params.url||'';
     if(!url){
         return {};
     }
+    console.log('url',url);
     let listData = {};
     http.get(url,{
         json:true
@@ -20,8 +22,8 @@ const  getData = function (params,filter,callback) {
             // let slideListData = filter(html);
 
             //获取数据
+
             listData = await filter(html,url);
-            console.log('3333');
             if(callback){
                 callback(listData);
             }
