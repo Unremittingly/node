@@ -4,6 +4,7 @@
  const agent = require("superagent");
  const connectSql  = require('../common/sqlOperation').connectSql;
  const getTime = require('../common/sqlOperation').getTime;
+ const selectAll = require('../common/sqlOperation').selectAll;
  charset(agent); //
 
  const fs  = require('fs');
@@ -123,7 +124,7 @@ function addData(data,connect) {
 
 let periods = getPeriodForFile();
 // periods = periods[0].concat(periods[1]);
-addDataForPeriod(periods,0);
+// addDataForPeriod(periods,0);
 function addDataForPeriod(periods,index) {
     setTimeout(function () {
         insetData(periods[index]);
@@ -138,3 +139,18 @@ function addDataForPeriod(periods,index) {
     },1000);
 
 }
+
+
+function selectUnionLotto() {
+    let connect = connectSql();
+    if(connect){
+        selectAll(function (data) {
+            //返回一群数组
+            console.log('data',data);
+        });
+    }
+
+}
+
+selectUnionLotto();
+

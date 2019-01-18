@@ -4,7 +4,7 @@ const mysql = require('mysql');
 let sameId = 0;
 let connection = null;
 
-const connectMysql = function() {
+const connectMysql = function () {
     connection = mysql.createConnection({
         host: 'localhost',
         port: '3306',
@@ -16,7 +16,7 @@ const connectMysql = function() {
     return connection;
 };
 
-const addData = function (data,operation) {
+const addData = function (data, operation) {
     if (connection) {
         let right = data.right;
         let time = getTime() / 1000;
@@ -45,6 +45,39 @@ const addData = function (data,operation) {
     }
 
 };
+const selectAll = function (callBack) {
+    if (connection) {
+        let sql = 'SELECT * FROM unionlotto';
+        connection.query(sql, function (error, result) {
+            if (error) {
+                console.log('查询失败', error);
+            } else {
+                if (result) {
+                    callBack(result);
+                }
+                // console.log('result',result);
+            }
+        })
+    }
+};
+
+const update = function (sql, callBack) {
+    if (connection) {
+        if (!sql) {
+            return false;
+        }
+        connection.query(sql, function (error, result) {
+            if (error) {
+                console.log('查询失败', error);
+            } else {
+                if (result) {
+                    callBack(result);
+                }
+                // console.log('result',result);
+            }
+        })
+    }
+};
 
 
 function getTime() {
@@ -54,3 +87,5 @@ function getTime() {
 exports.addData = addData;
 exports.connectSql = connectMysql;
 exports.getTime = getTime;
+exports.selectAll = selectAll;
+exports.update = update;
