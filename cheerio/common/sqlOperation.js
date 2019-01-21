@@ -4,14 +4,16 @@ const mysql = require('mysql');
 let sameId = 0;
 let connection = null;
 
-const connectMysql = function () {
-    connection = mysql.createConnection({
+const connectMysql = function (option) {
+    let opt = {
         host: 'localhost',
         port: '3306',
         user: 'root',
         password: 'fcymwg&M%8r_',
         database: 'test'
-    });
+    };
+    opt =  Object.assign(opt,option);
+    connection = mysql.createConnection(opt);
     connection.connect();
     return connection;
 };
@@ -76,8 +78,32 @@ const update = function (sql, callBack) {
                 // console.log('result',result);
             }
         })
+    }else{
+        connectMysql();
+        update(sql,callBack);
     }
 };
+
+function deleteData(id) {
+    if(connection){
+        if(id){
+            let sql = 'DELETE FROM info WHERE id = '+id+'';
+            connection.query(sql,function (error,result) {
+                if(error){
+                    console.log('删除失败',error);
+                }else{
+                    console.log('result',result);
+                }
+            })
+        }else{
+            console.log('该条数据不存在');
+        }
+
+    }else{
+        connectMysql();
+        deleteData(id);
+    }
+}
 
 
 function getTime() {
@@ -89,3 +115,4 @@ exports.connectSql = connectMysql;
 exports.getTime = getTime;
 exports.selectAll = selectAll;
 exports.update = update;
+exports.deleteData = deleteData;

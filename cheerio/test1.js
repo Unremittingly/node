@@ -6,6 +6,8 @@ const app = express();
 const qs = require('querystring');
 let getData = require('./common/getData').getData;
 let addData = require('./common/sqlOperation').addData;
+let updateData = require('./common/sqlOperation').update;
+let deleteD = require('./common/sqlOperation').deleteData;
 
 app.use(express.static(path.join(__dirname)));
 
@@ -102,6 +104,28 @@ app.get('/addData', function (req, res) {
         });
     })
 });
+
+
+/****
+ * 修改
+ * @type {string}
+ */
+
+function updateRank() {
+    let rank = '1000';
+    let id = 21;
+    let sql = 'UPDATE info SET cur_rank = '+rank+' where id='+id+'';
+    updateData(sql,function (result) {
+        console.log('result',result);
+    });
+}
+// updateRank();
+
+/****
+ * 删除
+ */
+// deleteD(20);
+
 
 app.listen('8090', function () {
     console.log('服务器启动  监听8090端口,请访问获取百度当前rank排名');
