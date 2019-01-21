@@ -86,7 +86,7 @@ function insetData(num) {
     let html = '';
     agent.get(url).charset('gbk').end(function (err, res) {
         if (err) {
-            console.log('数据读取失败');
+            console.log('数据读取失败',err);
         } else {
             html = res.text;
             let listData = filter(html);
