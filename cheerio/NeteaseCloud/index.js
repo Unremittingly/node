@@ -30,7 +30,7 @@ function getNeteaseCloud() {
         //res.on方法监听数据返回这一过程，"data"参数表示数数据接收的过程中，数据是一点点返回回来的，这里的chunk代表着一条条数据
         res.on("data", function (chunk) {
             json += chunk; //json由一条条数据拼接而成
-            console.log('chunk',chunk);
+            // consolnpm e.log('chunk',chunk);
         });
         //"end"是监听数据返回结束，callback（json）利用回调传参的方式传给后台结果再返回给前台
         res.on("end", function () {
