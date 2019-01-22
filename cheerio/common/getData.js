@@ -18,11 +18,7 @@ const  getData = function (params,filter,callback) {
         });
         //结束
         res.on('end',  async function () {
-
-            // let slideListData = filter(html);
-
             //获取数据
-
             listData = await filter(html,url);
             if(callback){
                 callback(listData);

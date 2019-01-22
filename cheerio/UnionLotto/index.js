@@ -4,6 +4,7 @@ const agent = require("superagent");
 const connectSql = require('../common/sqlOperation').connectSql;
 const getTime = require('../common/sqlOperation').getTime;
 const selectAll = require('../common/sqlOperation').selectAll;
+const getData = require('../common/getData').getData;
 charset(agent); //
 
 const fs = require('fs');
@@ -80,13 +81,60 @@ function writeFile(arr) {
     }
 }
 
+//换一个其他网站   就百度搜索的吧
+
+function filterG(html) {
+    let listData = {
+        red:[],
+        blue:0,
+
+    };
+    if(html){
+        let $ = cheerio.load(html);
+        $('.result-op').find('.c-gap-top span').each(function () {
+            console.log('1',$(this).text());
+            if($(this).hasClass('c-icon-ball-blue')){
+                listData['blue'] = $(this).text();
+            }else{
+                if($(this).text() && $(this).text()!='开奖时间：'){
+                    listData['red'].push($(this).text());
+                }
+            }
+
+            let fm=$('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
+            let fn = $('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
+            listData['first_money'] = fm.trim();
+            listData['first_num'] = fn.trim();
+            listData['c_date'] =  $('.c-border div').eq(0).text();
+            listData['period'] = $('.c-border div').eq(0).find('b').text();
+        })
+    }
+
+
+    return listData;
+}
+
+function insetDataForG() {
+    let url = 'http://www.baidu.com/s?wd=%E5%8F%8C%E8%89%B2%E7%90%83&rsv_spt=1&rsv_iqid=0xc87ef7dd0004dd67&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=5&rsv_sug1=3&rsv_sug7=100';
+
+    getData({
+        url: url,
+    }, function (html) {
+        return filterG(html)
+    }, function (data) {
+        console.log('data', data);
+    });
+}
 
 function insetData(num) {
+    insetDataForG();
+    return false;
     let url = 'http://kaijiang.500.com/shtml/ssq/' + num + '.shtml?0_ala_baidu';
     let html = '';
     agent.get(url).charset('gbk').end(function (err, res) {
         if (err) {
-            console.log('数据读取失败',err);
+            console.log('数据读取失败', err);
+            insetDataForG();
         } else {
             html = res.text;
             let listData = filter(html);
