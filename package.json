@@ -17,6 +17,7 @@
     "express": "^4.16.4",
     "iconv-lite": "^0.4.24",
     "mysql": "^2.16.0",
+    "puppeteer": "^1.11.0",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "superagent": "^4.1.0",
     "superagent-charset": "^1.2.0",
