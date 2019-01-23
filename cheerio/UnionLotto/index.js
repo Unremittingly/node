@@ -127,8 +127,8 @@ function insetDataForG() {
 }
 
 function insetData(num) {
-    insetDataForG();
-    return false;
+    // insetDataForG();
+    // return false;
     let url = 'http://kaijiang.500.com/shtml/ssq/' + num + '.shtml?0_ala_baidu';
     let html = '';
     agent.get(url).charset('gbk').end(function (err, res) {
