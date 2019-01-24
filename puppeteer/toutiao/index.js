@@ -56,7 +56,7 @@ let getTime = require('../../common/sqlOperation').getTime;
 
     }
 
-
+    await browser.close()
 
 
 

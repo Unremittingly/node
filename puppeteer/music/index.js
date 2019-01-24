@@ -26,5 +26,6 @@ const puppeteer = require('puppeteer');
         return data;
     });
     console.log('data', data);
+    await browser.close()
 })();
 
