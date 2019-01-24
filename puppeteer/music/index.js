@@ -15,12 +15,12 @@ const puppeteer = require('puppeteer');
         let list_i = document.querySelectorAll('.cmmts .itm .head img');
         let data = [];
         for (let i = 0; i < list_n.length; i++) {
-            let name = list_n[i].innerText;
-            let icon = list_i[i].getAttribute('src');
+            let name = list_n[i] ? list_n[i].innerText :"";
+            let icon = list_i[i] ?list_i[i].getAttribute('src'):'';
             data.push({
                 icon:icon.replace(/\/\r\n/g,'').trim(),
                 name: name.trim(),
-                desc: list_d[i].innerText.replace(name+'：',' ').replace(/\/\r\n/g,'').trim(),
+                desc: (list_d[i]?list_d[i].innerText:'').replace(name+'：',' ').replace(/\/\r\n/g,'').trim(),
             })
         }
         return data;

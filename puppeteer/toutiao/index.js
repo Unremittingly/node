@@ -17,10 +17,10 @@ let getTime = require('../../common/sqlOperation').getTime;
         let dom_tab = document.querySelectorAll('.slide-tab li ');
         for(let i=0;i<dom_img.length;i++ ){
             listData.push({
-                img:domain + dom_img[i].getAttribute('src'),
-                tit:removeSpaceAndLine(dom_tit[i].innerText),
-                url:domain + dom_src[i].getAttribute('href'),
-                type:removeSpaceAndLine(dom_tab[i].innerText)
+                img:domain + (dom_img[i]?dom_img[i].getAttribute('src'):''),
+                tit:removeSpaceAndLine(dom_tit[i]?dom_tit[i].innerText:''),
+                url:domain + (dom_src[i]?dom_src[i].getAttribute('href'):''),
+                type:removeSpaceAndLine(dom_tab[i]?dom_tab[i].innerText:'')
             })
         }
         function removeSpaceAndLine(str) {
