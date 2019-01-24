@@ -21,7 +21,9 @@ const fs = require('fs');
 
     },2000);
 
+    let startTime = (new Date().getTime())/1000;
     async  function getUrls(){
+
         let imageUrls = await page.evaluate(function () {
             let urls = [];
             console.log('1aaa',document.querySelectorAll('#imglist').length);
@@ -32,8 +34,15 @@ const fs = require('fs');
             return urls;
         });
         if(imageUrls.length<=0){
-            console.log('reGet');
-           return await getUrls();
+            //处理图片延时加载 会获取不到的问题  递归获取  超过2秒 连接超时
+            let endTime = (new Date().getTime())/1000;
+            console.log('reGet',endTime-startTime);
+            if(endTime-startTime > 2){
+                console.log('连接超时');
+                return imageUrls;
+            }else{
+                return await getUrls();
+            }
 
         }else{
             return imageUrls;
@@ -42,9 +51,9 @@ const fs = require('fs');
     }
     let urls = await getUrls();
 
-    downLoads(urls);
+    // downLoads(urls);
 
-    console.log('imageUrls',urls);
+    // console.log('imageUrls',urls);
     browser.close();
 
 
@@ -64,7 +73,6 @@ function downLoads(urls) {
     // var url = "http://s0.hao123img.com/res/img/logo/logonew.png";
     for (let i = 0; i < urls.length; i++) {
         let url = urls[i];
-        console.log('url',url);
         downLoad(url);
     }
 
