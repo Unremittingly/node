@@ -1,8 +1,9 @@
-#!/usr/local/bin/node
+
 
 /**
- * @author: vanishcode
- * @desc: hahahaha, fuck you, ADs!
+ * @time:2019/1/24
+ * @author: zq
+ * @desc:  抓取图片并下载到本地
  */
 
 const puppeteer = require('puppeteer');
@@ -15,7 +16,7 @@ const fs = require('fs');
     let page = await browser.newPage();
     let url = 'https://image.baidu.com/';
     await page.goto(url);
-    // page.waitForNavigation();
+    // page.waitForNavigation();  这里测试waitForNavigation似乎没用  他默认的是load事件加载完成    但是这里有可能是后面ajax请求过来的
 
     setTimeout(async function () {
 
@@ -43,34 +44,18 @@ const fs = require('fs');
             }else{
                 return await getUrls();
             }
-
         }else{
             return imageUrls;
         }
-
     }
     let urls = await getUrls();
-
-    // downLoads(urls);
-
+    downLoads(urls);
     // console.log('imageUrls',urls);
     browser.close();
-
-
 })();
-// run('http://jandan.net/ooxx');
-
-
-
-
-
-// downLoads();
 
 function downLoads(urls) {
 
-    var server = https.createServer(function(req, res){}).listen(50082);
-    console.log("http start");
-    // var url = "http://s0.hao123img.com/res/img/logo/logonew.png";
     for (let i = 0; i < urls.length; i++) {
         let url = urls[i];
         downLoad(url);
