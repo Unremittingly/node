@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "getBdRank": "node cheerio/test1.js",
     "selenium": "node cheerio/selenium/index.js",
-    "unionlotto": "node cheerio/UnionLotto/index.js"
+    "unionlotto": "node cheerio/UnionLotto/index.js",
+    "toutiao": "node puppeteer/toutiao/index.js",
+    "music": "node puppeteer/music/index.js"
   },
   "author": "",
   "license": "ISC",
