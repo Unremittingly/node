@@ -4,10 +4,10 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const qs = require('querystring');
-let getData = require('./common/getData').getData;
-let addData = require('./common/sqlOperation').addData;
-let updateData = require('./common/sqlOperation').update;
-let deleteD = require('./common/sqlOperation').deleteData;
+let getData = require('../common/getData').getData;
+let addData = require('../common/sqlOperation').addData;
+let updateData = require('../common/sqlOperation').update;
+let deleteD = require('../common/sqlOperation').deleteData;
 
 app.use(express.static(path.join(__dirname)));
 

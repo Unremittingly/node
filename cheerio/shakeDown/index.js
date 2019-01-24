@@ -3,7 +3,7 @@ const express = require('express');
 const cheerio = require('cheerio');
 const path = require('path');
 const app = express();
-const getData = require('../common/getData').getData;
+const getData = require('../../common/getData').getData;
 app.use(express.static(path.join(__dirname)));
 app.get('/shake',function (req,res) {
     let url = 'http://kaijiang.500.com/shtml/ssq/index.shtml';

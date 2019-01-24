@@ -1,10 +1,10 @@
 const cheerio = require("cheerio");
 const charset = require("superagent-charset");
 const agent = require("superagent");
-const connectSql = require('../common/sqlOperation').connectSql;
-const getTime = require('../common/sqlOperation').getTime;
-const selectAll = require('../common/sqlOperation').selectAll;
-const getData = require('../common/getData').getData;
+const connectSql = require('../../common/sqlOperation').connectSql;
+const getTime = require('../../common/sqlOperation').getTime;
+const selectAll = require('../../common/sqlOperation').selectAll;
+const getData = require('../../common/getData').getData;
 charset(agent); //
 
 const fs = require('fs');

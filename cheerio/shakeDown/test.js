@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const util = require('util');
 const path = require('path');
-const getData = require('../common/getData').getData;
+const getData = require('../../common/getData').getData;
 app.use(express.static(path.join(__dirname)));
 app.get('/shake', function (req, res) {
     let url = 'http://127.0.0.1:7777/';

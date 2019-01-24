@@ -1,7 +1,4 @@
 const mysql = require('mysql');
-
-
-let sameId = 0;
 let connection = null;
 
 const connectMysql = function (option) {
@@ -109,6 +106,27 @@ function deleteData(id) {
 function getTime() {
     return new Date().getTime();
 }
+function insertData(sql){
+    let isSuccess = false;
+    if(connection){
+        let defaultSql = sql||'';
+        if(defaultSql){
+            connection.query(defaultSql,function (error,result) {
+                if(error){
+                   console.log('数据插入失败');
+                    isSuccess = false;
+                }else{
+                    console.log('数据插入成功',result);
+                    isSuccess = true;
+                }
+            })
+        }
+    }else{
+        connectMysql();
+        insertData(sql);
+    }
+    return isSuccess;
+}
 
 exports.addData = addData;
 exports.connectSql = connectMysql;
@@ -116,3 +134,4 @@ exports.getTime = getTime;
 exports.selectAll = selectAll;
 exports.update = update;
 exports.deleteData = deleteData;
+exports.insertData = insertData;
