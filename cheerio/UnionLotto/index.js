@@ -133,6 +133,15 @@ function filterG(html) {
             let obj = dom_red[i].innerText;
             reds.push(obj);
         }
+        
+
+       // await  document.write("<script src='http://libs.baidu.com/jquery/2.1.1/jquery.min.js'><\/script>");
+
+        console.log('$',$('body'));
+
+        return {
+            body:$('document')
+        };
         return {
             red: reds,
             blue: dom_blue,
@@ -146,15 +155,18 @@ function filterG(html) {
 }
 
 async function insetData(num) {
-
+    let listData =  await insetDataForG(1);
+    console.log('listData',listData);
+    return false;
+    let connect = connectSql();
+    addData(listData, connect);
+    return false;
     let url = 'http://kaijiang.500.com/shtml/ssq/' + num + '.shtml?0_ala_baidu';
     let html = '';
     agent.get(url).charset('gbk').end( async function (err, res) {
         if (err) {
             console.log('数据读取失败', err);
-            let listData =  await insetDataForG(1);
-            let connect = connectSql();
-            addData(listData, connect);
+
         } else {
             html = res.text;
             let listData = filter(html);
@@ -198,7 +210,7 @@ function sendUrl() {
 
 sendUrl();
 
-// insetData(19009);
+insetData(19009);
 /****
  * 这里是获取所有的  这里递归获取  从select框中获取
  */

@@ -41,6 +41,10 @@ const getDataForPuppeteer = async function (params, callBack) {
     let browser = await puppeteer.launch();
     let page = await browser.newPage();
     await page.goto(url);
+
+    await page.addScriptTag({
+        url:'http://libs.baidu.com/jquery/2.1.1/jquery.min.js'
+    });
     if(type == 2){
         //多个 需要额外的 点击或其他操作  todo:这里如果是select框的选择的话会有 问题  待解决
         let divs =   await page.$$('.kjnr .xzkjq select option');

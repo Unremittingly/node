@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="aaa">
+
+</div>
+
+
+<script>
+    function hasClass(obj, cls) {
+        if (obj.className) {
+            return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+        }
+        return false;
+    }
+
+    function addClass(obj, cls) {
+        if (!hasClass(obj, cls)) obj.className += " " + cls;
+    }
+
+    function removeClass(obj, cls) {
+        if (hasClass(obj, cls)) {
+            var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+            obj.className = obj.className.replace(reg, ' ');
+        }
+    }
+
+    function removeAllClass(obj) {
+        obj.className = '';
+    }
+    let a=   document.getElementsByClassName('aaa')[0];
+    console.log('a',a);
+    addClass(a,'abc');
+
+
+    function addJquery() {
+        document.write("<script src='http://libs.baidu.com/jquery/2.1.1/jquery.min.js'><\/script>");
+    }
+
+    addJquery();
+
+</script>
+</body>
+</html>
