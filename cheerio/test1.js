@@ -61,7 +61,6 @@ let filter = function (html, url) {
         return str.replace(/\/\r\n/g, '');
     }
 
-    console.log('listDatalistDatalistDatalistDatalistData', listData);
     return listData;
 
 };
@@ -76,7 +75,7 @@ app.get('/getData', function (req, res) {
 
     let url = 'http://www.baidu.com/';
     let params = req.query ? req.query : {};
-    console.log('params', params);
+    // console.log('params', params);
     getData(params, function (html) {
         filter(html, url)
     }, function (data) {

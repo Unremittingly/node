@@ -27,9 +27,7 @@ const addData = function (data, operation) {
             value += '("' + obj.desc + '",' + time + ',' + obj.index + ',' + same_id + ',"' + obj.src + '"),'
         }
         value = value.substring(0, value.length - 1);
-        console.log('value', value);
         let sql = 'INSERT INTO info(name,cur_time,cur_rank,same_id,url) VALUES' + value;
-        console.log('sql', sql);
         connection.query(sql, function (error, result) {
             if (error) {
                 console.log('数据添加失败', error);

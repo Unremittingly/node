@@ -5,6 +5,7 @@ const connectSql = require('../../common/sqlOperation').connectSql;
 const getTime = require('../../common/sqlOperation').getTime;
 const selectAll = require('../../common/sqlOperation').selectAll;
 const getData = require('../../common/getData').getData;
+const getDataForPuppeteer = require('../../common/getData').getDataForPuppeteer;
 charset(agent); //
 
 const fs = require('fs');
@@ -35,11 +36,6 @@ let filter = function (html) {
         listData['c_date'] = content.find('.span_right').text();
         listData['period'] = qs;
     }
-
-
-    // console.log('arr',arr);
-
-    // writeFile(arr);
 
     return listData;
 };
@@ -85,27 +81,27 @@ function writeFile(arr) {
 
 function filterG(html) {
     let listData = {
-        red:[],
-        blue:0,
+        red: [],
+        blue: 0,
 
     };
-    if(html){
+    if (html) {
         let $ = cheerio.load(html);
         $('.result-op').find('.c-gap-top span').each(function () {
-            console.log('1',$(this).text());
-            if($(this).hasClass('c-icon-ball-blue')){
+            console.log('1', $(this).text());
+            if ($(this).hasClass('c-icon-ball-blue')) {
                 listData['blue'] = $(this).text();
-            }else{
-                if($(this).text() && $(this).text()!='开奖时间：'){
+            } else {
+                if ($(this).text() && $(this).text() != '开奖时间：') {
                     listData['red'].push($(this).text());
                 }
             }
 
-            let fm=$('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
+            let fm = $('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
             let fn = $('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
-            listData['first_money'] = fm.trim();
-            listData['first_num'] = fn.trim();
-            listData['c_date'] =  $('.c-border div').eq(0).text();
+            listData['first_money'] = fn.trim();
+            listData['first_num'] =  fm.trim();
+            listData['c_date'] = $('.c-border div').eq(0).text();
             listData['period'] = $('.c-border div').eq(0).find('b').text();
         })
     }
@@ -114,27 +110,51 @@ function filterG(html) {
     return listData;
 }
 
-function insetDataForG() {
-    let url = 'http://www.baidu.com/s?wd=%E5%8F%8C%E8%89%B2%E7%90%83&rsv_spt=1&rsv_iqid=0xc87ef7dd0004dd67&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=5&rsv_sug1=3&rsv_sug7=100';
+/******
+ *
+ * @param type 1.只获取当前第一个   2.获取所有  包括没有获取到的
+ * @returns {Promise<*|undefined>}
+ */
+ function insetDataForG(type) {
+    let url = 'http://www.cwl.gov.cn/kjxx/ssq/';
+    return    getDataForPuppeteer({url: url, type: type}, async function () {
+        //这里面使用原生JS获取数据
+        let reds = [];
 
-    getData({
-        url: url,
-    }, function (html) {
-        return filterG(html)
-    }, function (data) {
-        console.log('data', data);
+        let index = document.querySelector('.kjnr .xzkjq select').selectedIndex;
+        let qs = document.querySelector('.kjnr .xzkjq select').options[index].innerText;//默认第一个
+        let c_date = document.querySelector('.kjnr .kjrq').innerText;
+        let dom_blue = document.querySelector('.kjnr  .hmj li.qiuL').innerText;
+        let dom_red = document.querySelectorAll('.kjnr .hmj li');
+        let first_num = document.querySelector('.bqxq  tbody tr .z1').innerText;
+
+        let first_money = document.querySelector('.bqxq  tbody tr .m1').innerText;
+        for (let i = 0; i < dom_red.length; i++) {
+            let obj = dom_red[i].innerText;
+            reds.push(obj);
+        }
+        return {
+            red: reds,
+            blue: dom_blue,
+            period: qs ? qs.substring(2, qs.length) : 0,
+            c_date: c_date,
+            first_num: first_num,
+            first_money: first_money
+        };
     });
+
 }
 
-function insetData(num) {
-    // insetDataForG();
-    // return false;
+async function insetData(num) {
+
     let url = 'http://kaijiang.500.com/shtml/ssq/' + num + '.shtml?0_ala_baidu';
     let html = '';
-    agent.get(url).charset('gbk').end(function (err, res) {
+    agent.get(url).charset('gbk').end( async function (err, res) {
         if (err) {
             console.log('数据读取失败', err);
-            insetDataForG();
+            let listData =  await insetDataForG(1);
+            let connect = connectSql();
+            addData(listData, connect);
         } else {
             html = res.text;
             let listData = filter(html);
@@ -147,12 +167,14 @@ function insetData(num) {
     })
 }
 
-function addData(data, connect) {
+ function addData(data, connect) {
     if (connect) {
 
         let time = parseInt(getTime() / 1000);
         let value = '';
 
+        console.log('data111',data);
+        // return false;
         // console.log(data);
         value += '("' + data.red.join(',') + '",' + data.blue + ',' + data.period + ',' + time + ',"' + data.c_date + '",' + data.first_money + ',' + data.first_num + '),';
 
@@ -169,7 +191,14 @@ function addData(data, connect) {
     }
 }
 
-insetData(19009);
+
+function sendUrl() {
+    
+}
+
+sendUrl();
+
+// insetData(19009);
 /****
  * 这里是获取所有的  这里递归获取  从select框中获取
  */
