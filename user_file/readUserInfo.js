@@ -1,7 +1,7 @@
 let fs = require('fs');
 
 //读取指定文件中的用户信息
-let url = './user.txt';
+let url = './user_file.txt';
 
 function readInfo(url) {
     let rs = fs.createReadStream(url);
