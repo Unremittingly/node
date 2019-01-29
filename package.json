@@ -8,7 +8,7 @@
     "unionlotto": "node cheerio/UnionLotto/index.js",
     "toutiao": "node puppeteer/toutiao/index.js",
     "music": "node puppeteer/music/index.js",
-    "downImg":"node puppeteer/downLoad/index.js"
+    "downImg": "node puppeteer/downLoad/index.js"
   },
   "author": "",
   "license": "ISC",
