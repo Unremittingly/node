@@ -18,10 +18,6 @@ const fs = require('fs');
     await page.goto(url);
     // page.waitForNavigation();  这里测试waitForNavigation似乎没用  他默认的是load事件加载完成    但是这里有可能是后面ajax请求过来的
 
-    setTimeout(async function () {
-
-    },2000);
-
     let startTime = (new Date().getTime())/1000;
     async  function getUrls(){
 
