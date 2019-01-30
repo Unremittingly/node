@@ -4,7 +4,7 @@ let get_data = require('../../common/getData').getData;
 const cheerio = require('cheerio');
 
 
-(async ()=>{
+(async () => {
     //获取数据  小说（凡人修仙传）
 
     let browser = await puppeteer.launch();
@@ -23,11 +23,11 @@ const cheerio = require('cheerio');
         //     await getData1(i);
         // }
         //八一新中网
-        for (let i = 0; i <  10; i++) {
+        for (let i = 0; i < 700; i++) {
             await getData(i);
         }
 
-
+        browser.close();
 
     }
 
@@ -35,69 +35,71 @@ const cheerio = require('cheerio');
     async function getData(num) {
         //八一新中网
         let url = 'https://www.81xzw.com/book/151103/';
-         let result =   await  page.goto(url+num + '.html');
+        let result = await page.goto(url + num + '.html');
 
-         let cur = await page.evaluate(function () {
-             let title = document.getElementsByTagName('h1')[0].innerText;
-             // text=text.replace(/\n/g,"<br/>");
-              let num =  title.match(/\((.+?)\)/g);
-             if(num &&  num.length>0){
-                 num = num[0].match(/\/(\S*)/)[1].replace(')','');
-                 return {
-                     title:title.replace(/\((.+?)\)/g,''),
-                     num:num
-                 }
-             }else{
-                 return {
-                     title:title,
-                     num:1
-                 };
-             }
+        let cur = await page.evaluate(function () {
+            let title = document.getElementsByTagName('h1')[0].innerText;
+            // text=text.replace(/\n/g,"<br/>");
+            let num = title.match(/\((.+?)\)/g);
+            if (num && num.length > 0) {
+                num = num[0].match(/\/(\S*)/)[1].replace(')', '');
+                return {
+                    title: title.replace(/\((.+?)\)/g, ''),
+                    num: num
+                }
+            } else {
+                return {
+                    title: title,
+                    num: 1
+                };
+            }
 
 
-         });
-         console.log('data_num',cur);
-         let data = {
-             text:'',
-         };
-         if(cur.num >= 1){
-             for (let i = 0; i < cur.num; i++) {
-                 await  page.goto(url+num +'_' +i+ '.html');
-                 let data_i =  await page.evaluate(function () {
-                     let d_tit = document.getElementsByTagName('h1')[0];
-                     let title = d_tit.innerText;
-                     let d_txt = document.getElementById('content');
-                     let text = d_txt?d_txt.innerText:'';
-                     let to_nextpage = document.getElementsByClassName('to_nextpage')[0]?document.getElementsByClassName('to_nextpage')[0].innerText:'';
-                     text =  text.replace(to_nextpage+'','').replace('-->>','');
-                     // text=text.replace(/\n/g,"<br/>");
-                     return {
-                         title:title,
-                         text:text,
-                     }
-                 });
-                 // console.log('data_i',data_i);
-                 data.text += data_i.text;
-             }
-         }else{
-              data =  await page.evaluate(function () {
-                 let title = document.getElementsByTagName('h1')[0].innerText;
-                 let text = document.getElementById('content').outerText;
-                 let to_nextpage = document.getElementsByClassName('to_nextpage').innerText;
-                 text.replace(to_nextpage+'','');
-                 // text=text.replace(/\n/g,"<br/>");
-                 return {
-                     title:title,
-                     text:text
-                 }
-             });
+        });
+        console.log('data_num', cur);
+        let data = {
+            text: '',
+        };
+        if (cur.num >= 1) {
+            for (let i = 0; i < cur.num; i++) {
+                await page.goto(url + num + '_' + i + '.html');
+                let data_i = await page.evaluate(function () {
+                    let d_tit = document.getElementsByTagName('h1')[0];
+                    let title = d_tit.innerText;
+                    let d_txt = document.getElementById('content');
+                    let text = d_txt ? d_txt.innerText : '';
+                    let to_nextpage = document.getElementsByClassName('to_nextpage')[0] ? document.getElementsByClassName('to_nextpage')[0].innerText : '';
+                    text = text.replace(to_nextpage + '', '').replace('-->>', '');
+                    // text=text.replace(/\n/g,"<br/>");
+                    return {
+                        title: title,
+                        text: text,
+                    }
+                });
+                // console.log('data_i',data_i);
+                data.text += data_i.text;
+            }
+        } else {
+            data = await page.evaluate(function () {
+                let d_tit = document.getElementsByTagName('h1')[0];
+                let title = d_tit.innerText;
+                let d_txt = document.getElementById('content');
+                let text = d_txt ? d_txt.innerText : '';
+                let to_nextpage = document.getElementsByClassName('to_nextpage').innerText;
+                text = text.replace(to_nextpage + '', '');
+                // text=text.replace(/\n/g,"<br/>");
+                return {
+                    title: title,
+                    text: text
+                }
+            });
 
-         }
+        }
 
-         data.title = cur.title;
+        data.title = cur.title;
         // console.log('data',data);
-        if(data.text){
-            writeTxtToFile(data.title + '\n\n'+data.text,'./puppeteer/fiction/fr.txt');
+        if (data.text) {
+            writeTxtToFile(data.title + '\n\n' + data.text, './puppeteer/fiction/fr.txt');
         }
 
     }
@@ -105,27 +107,27 @@ const cheerio = require('cheerio');
 
     async function getData1(num) {
         //笔趣网
-        let url = 'https://www.biquke.com/bq/0/990/'+num+'.html';
-        let result =   await  page.goto(url);
+        let url = 'https://www.biquke.com/bq/0/990/' + num + '.html';
+        let result = await page.goto(url);
 
 
-      let  data =  await page.evaluate(function () {
+        let data = await page.evaluate(function () {
             let title = document.getElementsByTagName('h1')[0].innerText;
-            let text = document.getElementById('content')?document.getElementById('content').innerText:'';
+            let text = document.getElementById('content') ? document.getElementById('content').innerText : '';
             let to_nextpage = document.getElementsByClassName('to_nextpage').innerText;
-            text.replace(to_nextpage+'','');
+            text.replace(to_nextpage + '', '');
             // text=text.replace(/\n/g,"<br/>");
             return {
-                title:title,
-                text:text
+                title: title,
+                text: text
             }
         });
 
-        console.log('data',data);
+        console.log('data', data);
 
         // return false;
-        if(data.text){
-            writeTxtToFile(data.title + '\n\n'+data.text,'./puppeteer/fiction/fr.txt');
+        if (data.text) {
+            writeTxtToFile(data.title + '\n\n' + data.text, './puppeteer/fiction/fr.txt');
         }
 
     }
@@ -134,7 +136,7 @@ const cheerio = require('cheerio');
     function writeTxtToFile(str, url) {
 
 
-        if (!getIsExist()) {
+        if (!getIsExist(url)) {
             //异步方法
             fs.writeFile(url, '初始化第一行', function (err) {
                 if (err) {
@@ -144,7 +146,7 @@ const cheerio = require('cheerio');
                 }
             });
         } else {
-            fs.appendFile(url, str+'\n\n' ,'utf8', function (err) {
+            fs.appendFile(url, str + '\n\n', 'utf8', function (err) {
                 if (err) {
                     console.log('追加内容失败');
                 } else {
@@ -153,7 +155,8 @@ const cheerio = require('cheerio');
             })
         }
     }
-    async function getIsExist() {
+
+    async function getIsExist(url) {
         let isExist = false;
         await fs.exists(url, function (exists) {
             isExist = exists;
