@@ -121,7 +121,7 @@ function insertData(sql){
         }
     }else{
         connectMysql();
-        insertData(sql);
+        isSuccess =  insertData(sql);
     }
     return isSuccess;
 }
