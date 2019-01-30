@@ -95,7 +95,7 @@ function downLoad(url) {
         var imgData = "";
         let urlArr = url.split('/');
         let fileName = urlArr[urlArr.length - 1];
-        let filePath = (fileName.split('.').length > 1) ? basePath + fileName : './images/' + fileName + '.png';
+        let filePath = (fileName.split('.').length > 1) ? basePath + fileName : basePath + fileName + '.png';
         res.setEncoding("binary"); //一定要设置response的编码为binary否则会下载下来的图片打不开
         res.on("data", function (chunk) {
             imgData += chunk;

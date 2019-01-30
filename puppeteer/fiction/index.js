@@ -23,7 +23,7 @@ const cheerio = require('cheerio');
         //     await getData1(i);
         // }
         //八一新中网
-        for (let i = 0; i < 700; i++) {
+        for (let i = 56; i < 100; i++) {
             await getData(i);
         }
 
@@ -65,7 +65,7 @@ const cheerio = require('cheerio');
                 await page.goto(url + num + '_' + i + '.html');
                 let data_i = await page.evaluate(function () {
                     let d_tit = document.getElementsByTagName('h1')[0];
-                    let title = d_tit.innerText;
+                    let title = d_tit ? d_tit.innerText : "";
                     let d_txt = document.getElementById('content');
                     let text = d_txt ? d_txt.innerText : '';
                     let to_nextpage = document.getElementsByClassName('to_nextpage')[0] ? document.getElementsByClassName('to_nextpage')[0].innerText : '';
@@ -82,7 +82,7 @@ const cheerio = require('cheerio');
         } else {
             data = await page.evaluate(function () {
                 let d_tit = document.getElementsByTagName('h1')[0];
-                let title = d_tit.innerText;
+                let title = d_tit?d_tit.innerText:'';
                 let d_txt = document.getElementById('content');
                 let text = d_txt ? d_txt.innerText : '';
                 let to_nextpage = document.getElementsByClassName('to_nextpage').innerText;
