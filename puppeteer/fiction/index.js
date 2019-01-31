@@ -7,13 +7,15 @@ const cheerio = require('cheerio');
 (async () => {
     //获取数据  小说（凡人修仙传）
 
+    let status = 1;//抓取的状态   1.成功  2.链接超时  3.evaluate方法内报错  4.添加到文件报错  5.
+
     let browser = await puppeteer.launch();
     let page = await browser.newPage();
 
     let success = [];
 
 
-    getDatas();
+    // getDatas();
 
     //获取所有
     async function getDatas() {
@@ -25,7 +27,7 @@ const cheerio = require('cheerio');
         //     await getData1(i);
         // }
         //八一新中网   94位置  白屏啦
-        for (let i = 250; i < 300; i++) {
+        for (let i = 700; i < 720; i++) {
             let isSuccess = await getData(i);
             if (!isSuccess) {
                 break;
@@ -44,7 +46,7 @@ const cheerio = require('cheerio');
         try {
             let result = await page.goto(url + num + '.html', {
                 waitUntil: 'networkidle0',
-                timeout: 10000
+                timeout: 12000
             });
         } catch (e) {
             console.log('error', e);
@@ -55,6 +57,7 @@ const cheerio = require('cheerio');
         console.log('n_time', n_time - time, num);
         if (n_time - time > 10) {
             console.log('链接超时，error');
+            status = 2;
             return false;
         }
         let cur = null;
@@ -82,6 +85,7 @@ const cheerio = require('cheerio');
 
         } catch (e) {
             console.log('error', e);
+            status = 3;
             return false;
         }
         console.log('data_num', cur);
@@ -130,6 +134,7 @@ const cheerio = require('cheerio');
             }
         } catch (e) {
             console.log('errrorrrr', e);
+            status = 3;
             return false;
         }
 
@@ -139,9 +144,10 @@ const cheerio = require('cheerio');
             if (data.title.indexOf('凡人修仙传') != -1) {
                 success.push(data.title);
             }
-            writeTxtToFile('\n' + data.title + '\n\n' + data.text, './puppeteer/fiction/fr.txt');
+            writeTxtToFile('\n' + data.title + '\n\n' + data.text, './puppeteer/fiction/fr_1.txt');
         }
 
+        status = 1;
         return true;
 
     }
@@ -169,7 +175,7 @@ const cheerio = require('cheerio');
 
         // return false;
         if (data.text) {
-            writeTxtToFile(data.title + '\n\n' + data.text, './puppeteer/fiction/fr.txt');
+            writeTxtToFile(data.title + '\n\n' + data.text, './puppeteer/fiction/fr_1.txt');
         }
 
     }
@@ -190,6 +196,7 @@ const cheerio = require('cheerio');
         } else {
             fs.appendFile(url, str + '\n\n', 'utf8', function (err) {
                 if (err) {
+                    status = 4;
                     console.log('追加内容失败');
                 } else {
                     console.log('已添加一章');
