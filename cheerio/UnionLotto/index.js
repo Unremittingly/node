@@ -230,7 +230,7 @@ function addDataForPeriod(periods, index) {
 function selectUnionLotto() {
     let connect = connectSql();
     if (connect) {
-        selectAll(function (data) {
+        selectAll('unionlotto',function (data) {
             //返回一群数组
             console.log('data', data);
         });

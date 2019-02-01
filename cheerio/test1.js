@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const qs = require('querystring');
 let getData = require('../common/getData').getData;
-let {addData,update} = require('../common/sqlOperation');
+let {addData,update,close} = require('../common/sqlOperation');
 let deleteD = require('../common/sqlOperation').deleteData;
 
 app.use(express.static(path.join(__dirname)));
@@ -116,6 +116,7 @@ function insertDataToDataBase() {
     }, function (data) {
         //插入数据库
         addData(data);
+        close();
     })
 }
 
