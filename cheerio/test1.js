@@ -5,8 +5,7 @@ const path = require('path');
 const app = express();
 const qs = require('querystring');
 let getData = require('../common/getData').getData;
-let addData = require('../common/sqlOperation').addData;
-let updateData = require('../common/sqlOperation').update;
+let {addData,update} = require('../common/sqlOperation');
 let deleteD = require('../common/sqlOperation').deleteData;
 
 app.use(express.static(path.join(__dirname)));
@@ -130,7 +129,7 @@ function updateRank() {
     let rank = '1000';
     let id = 21;
     let sql = 'UPDATE info SET cur_rank = '+rank+' where id='+id+'';
-    updateData(sql,function (result) {
+    update(sql,function (result) {
         console.log('result',result);
     });
 }

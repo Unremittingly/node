@@ -79,7 +79,7 @@ const update = function (sql, callBack) {
     }
 };
 
-function deleteData(id) {
+const deleteData = function(id) {
     if(connection){
         if(id){
             let sql = 'DELETE FROM info WHERE id = '+id+'';
@@ -98,13 +98,13 @@ function deleteData(id) {
         connectMysql();
         deleteData(id);
     }
-}
+};
 
 
 function getTime() {
     return new Date().getTime();
 }
-function insertData(sql){
+const insertData =  function(sql){
     let isSuccess = false;
     if(connection){
         let defaultSql = sql||'';
@@ -124,7 +124,16 @@ function insertData(sql){
         isSuccess =  insertData(sql);
     }
     return isSuccess;
-}
+};
+
+const close = function(){
+  if (connection){
+      connection.end();
+      return true;
+  }else{
+      return false;
+  }
+};
 
 exports.addData = addData;
 exports.connectSql = connectMysql;
@@ -133,3 +142,4 @@ exports.selectAll = selectAll;
 exports.update = update;
 exports.deleteData = deleteData;
 exports.insertData = insertData;
+exports.close = close;

@@ -1,4 +1,5 @@
 
+//模拟请求
 const superagent = require('superagent');
 const events = require('events');
 const emitter = new events.EventEmitter();
@@ -12,10 +13,5 @@ function getDataForUrl(urls){
 
         })
 }
-
-
-
-
-
 
 let cookie = 'UniqueID=QOVldgdKTwYqMMHa1547713493316; Sites=_21; _ga=GA1.3.831973390.1547445117; _gid=GA1.3.1431945019.1547713495; 21_vq=4';

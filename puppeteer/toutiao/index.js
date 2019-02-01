@@ -1,5 +1,5 @@
 let puppeteer = require('puppeteer');
-let insertData = require('../../common/sqlOperation').insertData;
+let {insertData,close} = require('../../common/sqlOperation');
 let getTime = require('../../common/sqlOperation').getTime;
 
 (async () =>{
@@ -47,6 +47,7 @@ let getTime = require('../../common/sqlOperation').getTime;
             console.log('result',result);
 
         }
+        close();
         //这里多条的  暂时没用
         // value = value.substring(0, value.length - 1);
         // let sql = 'INSERT INTO headline(title,cur_time,url,c_identify,c_type,img) VALUES' + value;
@@ -55,6 +56,7 @@ let getTime = require('../../common/sqlOperation').getTime;
         // console.log('result',result);
 
     }
+
 
     await browser.close()
 
