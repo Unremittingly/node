@@ -15,10 +15,32 @@ const cheerio = require('cheerio');
     let success = [];
 
 
-    // getDatas();
+    let d =  await getAllNum();
+    async function getAllNum(){
+        let url ='https://www.81xzw.com/book/151103/';
+        await page.goto(url, {
+            waitUntil: 'networkidle0',
+            timeout: 12000
+        });
+        return await page.evaluate(function () {
+            let n = document.querySelectorAll('#newchapter li').length;
+            n = n>0?n:0;
+            let first_url = document.querySelectorAll('#newchapter li a');
+                first_url = first_url[first_url.length-1].getAttribute('href');
+            let last = first_url.split('/')[3];
+            let start = first_url ? last.substring(0,last.length-5):'';
+            return{
+                num:n,
+                start:start
+
+            };
+        });
+    }
+
+    getDatas(d);
 
     //获取所有
-    async function getDatas() {
+    async function getDatas(d) {
 
 
         //笔趣网  3248375  这个网站 的页面是没有规律的    暂时不用  会找不到页面
@@ -27,7 +49,7 @@ const cheerio = require('cheerio');
         //     await getData1(i);
         // }
         //八一新中网   94位置  白屏啦
-        for (let i = 700; i < 720; i++) {
+        for (let i = d.start; i < d.start + d.num; i++) {
             let isSuccess = await getData(i);
             if (!isSuccess) {
                 break;
