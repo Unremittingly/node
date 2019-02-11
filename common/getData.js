@@ -41,7 +41,6 @@ const getDataForPuppeteer = async function (params, callBack) {
     let browser = await puppeteer.launch();
     try {
         let page = await browser.newPage();
-        console.log('url',url);
         await page.goto(url);
         if(type == 2){
             //多个 需要额外的 点击或其他操作  todo:这里如果是select框的选择的话会有 问题  待解决

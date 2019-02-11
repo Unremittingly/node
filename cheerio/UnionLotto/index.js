@@ -157,7 +157,6 @@ async function insetData(num) {
         if (err) {
             console.log('数据读取失败', err);
             let listData =  await insetDataForG(1);
-            return false;
             let connect = connectSql();
             addData(listData, connect);
         } else {
