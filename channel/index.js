@@ -44,7 +44,7 @@ function initChannel() {
 }
 getChanel();
 function  getChanel() {
-    let arr = [26021,12007,12008,12009,12012,26043];
+    let arr = [26021,12007,12008,12009,12012,26043,70028];
     let randoms = [];
     for (let i = 0; i < 10; i++) {
         let random = parseInt(Math.random()*arr.length);
