@@ -113,7 +113,8 @@ function filterG(html) {
  * @param type 1.只获取当前第一个   2.获取所有  包括没有获取到的
  * @returns {Promise<*|undefined>}
  */
- function insetDataForG(type) {
+function insetDataForG(type) {
+
     let url = 'http://www.cwl.gov.cn/kjxx/ssq/';
     return    getDataForPuppeteer({url: url, type: type}, async function () {
         //这里面使用原生JS获取数据
@@ -156,6 +157,7 @@ async function insetData(num) {
         if (err) {
             console.log('数据读取失败', err);
             let listData =  await insetDataForG(1);
+            return false;
             let connect = connectSql();
             addData(listData, connect);
         } else {
@@ -201,7 +203,7 @@ function sendUrl() {
 
 sendUrl();
 
-insetData(19009);
+insetData(19015);
 /****
  * 这里是获取所有的  这里递归获取  从select框中获取
  */
