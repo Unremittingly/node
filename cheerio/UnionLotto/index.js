@@ -158,7 +158,10 @@ async function insetData(num) {
             console.log('数据读取失败', err);
             let listData =  await insetDataForG(1);
             let connect = connectSql();
-            addData(listData, connect);
+             let result =   addData(listData, connect);
+             if(!result){
+                 connect.end();
+             }
         } else {
             html = res.text;
             let listData = filter(html);
@@ -178,6 +181,9 @@ async function insetData(num) {
         let value = '';
 
         console.log('data111',data);
+        if(!data){
+            return false;
+        }
         // return false;
         // console.log(data);
         value += '("' + data.red.join(',') + '",' + data.blue + ',' + data.period + ',' + time + ',"' + data.c_date + '",' + data.first_money + ',' + data.first_num + '),';
