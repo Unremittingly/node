@@ -190,14 +190,19 @@ async function insetData(num) {
 
         value = value.substring(0, value.length - 1);
         let sql = 'INSERT INTO unionlotto(red,blue,period,c_time,c_date,first_money,first_num) VALUES' + value;
-        connect.query(sql, function (error, result) {
-            if (error) {
-                console.log('数据添加失败');
-            } else {
-                console.log('数据添加成功');
-            }
-            connect.end();
-        })
+        try {
+            connect.query(sql, function (error, result) {
+                if (error) {
+                    console.log('数据添加失败');
+                } else {
+                    console.log('数据添加成功');
+                }
+                connect.end();
+            })
+        }catch (e) {
+            console.log('error',e);
+        }
+  
     }
 }
 
