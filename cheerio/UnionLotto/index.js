@@ -150,7 +150,7 @@ function insetDataForG(type) {
 
 async function insetData(num) {
 
-    // return false;
+    // return false;  如果这里成功啦
     let url = 'http://kaijiang.500.com/shtml/ssq/' + num + '.shtml?0_ala_baidu';
     let html = '';
     agent.get(url).charset('gbk').end( async function (err, res) {
@@ -213,13 +213,14 @@ function sendUrl() {
 
 sendUrl();
 
-insetData(19015);
+// insetData(19015);
 /****
+ * 网站不一样  这里是500网
  * 这里是获取所有的  这里递归获取  从select框中获取
  */
 let periods = getPeriodForFile();
-// periods = periods[0].concat(periods[1]);
-// addDataForPeriod(periods,0);
+periods = periods[0].concat(periods[1]);
+addDataForPeriod(periods,0);
 function addDataForPeriod(periods, index) {
     setTimeout(function () {
         insetData(periods[index]);
