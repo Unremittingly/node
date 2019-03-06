@@ -9,8 +9,6 @@ charset(agent); //
 const fs = require('fs');
 let arr = [];
 
-
-test
 let filter = function (html) {
     let listData = {
         red: [],
