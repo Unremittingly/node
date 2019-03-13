@@ -49,7 +49,7 @@ const cheerio = require('cheerio');
         //     await getData1(i);
         // }
         //八一新中网   94位置  白屏啦
-        for (let i = 741; i < 743; i++) {
+        for (let i = 760; i < 775; i++) {
             let isSuccess = await getData(i);
             if (!isSuccess) {
                 break;
