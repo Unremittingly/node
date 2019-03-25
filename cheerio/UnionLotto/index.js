@@ -2,8 +2,7 @@ const cheerio = require("cheerio");
 const charset = require("superagent-charset");
 const agent = require("superagent");
 const {selectAll,getTime,connectSql} = require('../../common/sqlOperation');
-// const getData = require('../../common/getData').getData;
-const {getDataForPuppeteer,getData} = require('../../common/getData');
+const {getDataForPuppeteer} = require('../../common/getData');
 charset(agent); //
 
 const fs = require('fs');
