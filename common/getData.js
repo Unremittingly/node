@@ -61,12 +61,12 @@ const getDataForPuppeteer = async function (params, callBack) {
             listData = await page.evaluate(callBack ? callBack : function () {
                 return {};
             });
-            console.log('listData',listData);
+            // console.log('listData',listData);
         }
     }catch (e) {
         console.log('e',e);
     }
-   
+
 
 
 
