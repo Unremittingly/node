@@ -7,7 +7,7 @@ let getTime = require('../../common/sqlOperation').getTime;
     let browser = await puppeteer.launch();
     let page = await browser.newPage();
     await page.goto(url);
-
+    //todo 头条网站首页改版啦  需要重新来获取
     let d = await page.evaluate(function () {
         let listData =[];
         let domain = 'https://www.toutiao.com';
@@ -45,7 +45,7 @@ let getTime = require('../../common/sqlOperation').getTime;
             //这里一条一条的插入吧   防止 实时更新后  有些数据是新的 有些是旧的导致无法插入
             let result =  insertData(sql);
             console.log('result',result);
-
+            console.log('2');
         }
         close();
         //这里多条的  暂时没用
