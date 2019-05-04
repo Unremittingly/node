@@ -9,7 +9,7 @@
     "toutiao": "node puppeteer/toutiao/index.js",
     "music": "node puppeteer/music/index.js",
     "downImg": "node puppeteer/downLoad/index.js",
-    "fiction_fr":"node puppeteer/fiction/index.js",
+    "fiction_fr": "node puppeteer/fiction/index.js",
     "channel": "node channel/index.js"
   },
   "author": "",
@@ -22,7 +22,8 @@
     "express": "^4.16.4",
     "iconv-lite": "^0.4.24",
     "mysql": "^2.16.0",
-    "puppeteer": "^1.11.0",
+    "puppeteer": "^1.15.0",
+    "puppeteer-chromium-resolver": "^1.0.11",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "superagent": "^4.1.0",
     "superagent-charset": "^1.2.0",
