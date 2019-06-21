@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 3px 20px;
+            border-radius: 3px;
+            color: #fff;
+            cursor: pointer;
+            background: #00ddff;
+        }
+    </style>
+</head>
+<body>
+<script src="shakeDown/jquery-3.0.0.min.js"></script>
+<span class="btn" id="getData">获取数据</span>
+</body>
+<script>
+    $('#getData').click(function () {
+        getUnionlottoData();
+    });
+
+    function getUnionlottoData() {
+        $.ajax({
+            url: 'http://127.0.0.1:9999/getData',
+            data: {
+                str: 'wold'
+            },
+            success: function (data) {
+                if (data.ok) {
+                    // console.log('data', data);
+                    getTodayNumber(data.data);
+                }
+            }
+        })
+    }
+
+    function getRandIndex(length) {
+        let index = parseInt(Math.random() * length);
+        if (index < 50 || index > (length - 50)) {
+            return getRandIndex();
+        }
+        return parseInt(Math.random() * length);
+    }
+
+    Array.prototype.inArray=function (val) {
+        let arr = this;
+        let isIn = false ;
+        for (let i = 0; i < arr.length; i++) {
+            if(arr[i] === val){
+                isIn = true;
+                break;
+            }
+        }
+
+        return isIn
+    };
+
+    function getRed(arrRed,reds) {
+        let curIndex = parseInt(Math.random() * 5);
+
+        let red = reds[curIndex];
+
+        if(reds.inArray(arrRed)){
+            return getRed(arrRed,reds)
+        }
+
+        return red;
+    }
+    function getTodayNumber(data) {
+
+        let arrRed = [];
+        let blue = 0;
+        let blueIndex = parseInt(Math.random() * 5);
+        for (let i = 0; i < 6; i++) {
+            let randomIndex = getRandIndex(data.length);
+            let redStr = (data[randomIndex].red);
+            let reds = redStr.split(',');
+            let red = getRed(arrRed,reds);
+            arrRed.push(red);
+            if (blueIndex === i) {
+                blue = data[randomIndex].blue;
+            }
+
+        }
+
+        console.log('arrR', arrRed.join(','), blue);
+
+
+    }
+</script>
+</html>
