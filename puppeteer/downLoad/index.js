@@ -3,20 +3,12 @@
  * @author: zq
  * @desc:  抓取图片并下载到本地
  */
-
-const puppeteer = require('puppeteer');
 const https = require("https");
-const http = require('http');
 const fs = require('fs');
-const path = require('path');
 const basePath = './images/';
+const {puppeteerApi} = require('../common');
 
-
-
-
-
-(async () => {
-    let browser = await puppeteer.launch();
+puppeteerApi(false).then(async function (browser) {
     let page = await browser.newPage();
     await page.setViewport({
         height: 800,
@@ -34,7 +26,6 @@ const basePath = './images/';
 
     async function getUrls() {
 
-
         page.on('console', msg => {
             for (let i = 0; i < msg.args().length; ++i)
                 console.log(`${i}: ${msg.args()[i]}`); // 译者注：这句话的效果是打印到你的代码的控制台
@@ -45,7 +36,6 @@ const basePath = './images/';
             for (let i = 0; i < dom_s.length; i++) {
                 urls.push(dom_s[i] ? dom_s[i].getAttribute('src') : '')
             }
-
             return urls;
         });
         if (imageUrls.length <= 0) {
@@ -67,7 +57,7 @@ const basePath = './images/';
     downLoads(urls);
     console.log('imageUrls', urls.length);
     browser.close();
-})();
+});
 
 function downLoads(urls) {
 
@@ -92,7 +82,7 @@ function downLoads(urls) {
 
 function downLoad(url) {
     https.get(url, function (res) {
-        var imgData = "";
+        let imgData = "";
         let urlArr = url.split('/');
         let fileName = urlArr[urlArr.length - 1];
         let filePath = (fileName.split('.').length > 1) ? basePath + fileName : basePath + fileName + '.png';
