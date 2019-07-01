@@ -8,7 +8,7 @@ const fs = require('fs');
 const basePath = './images/';
 const {puppeteerApi} = require('../common');
 
-puppeteerApi(false).then(async function (browser) {
+puppeteerApi().then(async function (browser) {
     let page = await browser.newPage();
     await page.setViewport({
         height: 800,

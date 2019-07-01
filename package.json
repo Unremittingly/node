@@ -11,7 +11,8 @@
     "downImg": "node puppeteer/downLoad/index.js",
     "fiction_fr": "node puppeteer/fiction/index.js",
     "channel": "node channel/index.js",
-    "server": "node server/index.js"
+    "server": "node server/index.js",
+    "automatic": "node puppeteer/automatic/index.js"
   },
   "author": "",
   "license": "ISC",

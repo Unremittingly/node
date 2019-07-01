@@ -43,7 +43,7 @@ puppeteerApi(true).then(async function (browser) {
         //     await getData1(i);
         // }
         //八一新中网   94位置  白屏啦
-        for (let i = 850; i < 900; i++) {
+        for (let i = 956; i < 1000; i++) {
             let isSuccess = await getData(i);
             if (!isSuccess) {
                 break;
