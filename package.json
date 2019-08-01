@@ -12,7 +12,9 @@
     "fiction_fr": "node puppeteer/fiction/index.js",
     "channel": "node channel/index.js",
     "server": "node server/index.js",
-    "automatic": "node puppeteer/automatic/index.js"
+    "automatic": "node puppeteer/automatic/index.js",
+    "robTicket": "node puppeteer/automatic/robTicket.js",
+    "test1":"node puppeteer/test/index.js"
   },
   "author": "",
   "license": "ISC",
