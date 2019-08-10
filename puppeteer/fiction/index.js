@@ -2,7 +2,7 @@ const fs = require('fs');
 const {puppeteerApi} = require('../common');
 
 
-puppeteerApi(true).then(async function (browser) {
+puppeteerApi(false).then(async function (browser) {
     let page = await browser.newPage();
 
     let success = [];
@@ -43,7 +43,7 @@ puppeteerApi(true).then(async function (browser) {
         //     await getData1(i);
         // }
         //八一新中网   94位置  白屏啦
-        for (let i = 956; i < 1000; i++) {
+        for (let i = 1019; i < 1100; i++) {
             let isSuccess = await getData(i);
             if (!isSuccess) {
                 break;

@@ -3,10 +3,8 @@
  * @author: zq
  * @desc:  抓取图片并下载到本地
  */
-const https = require("https");
-const fs = require('fs');
 const basePath = './images/';
-const {puppeteerApi} = require('../common');
+const {puppeteerApi,downImg} = require('../common');
 
 puppeteerApi().then(async function (browser) {
     let page = await browser.newPage();
@@ -54,53 +52,12 @@ puppeteerApi().then(async function (browser) {
     }
 
     let urls = await getUrls();
-    downLoads(urls);
+    downImg(urls,basePath);
+
     console.log('imageUrls', urls.length);
     browser.close();
 });
 
-function downLoads(urls) {
 
-    (async (__filename) => {
-        fs.stat(__filename, (err) => {
-            if (err) {
-                fs.mkdir(__filename, (e) => {
-                    if (e) {
-                        console.log(e);
-                    }
-                });
-            }
-        })
-    })(basePath);
-
-    for (let i = 0; i < urls.length; i++) {
-        let url = urls[i];
-        downLoad(url);
-    }
-
-}
-
-function downLoad(url) {
-    https.get(url, function (res) {
-        let imgData = "";
-        let urlArr = url.split('/');
-        let fileName = urlArr[urlArr.length - 1];
-        let filePath = (fileName.split('.').length > 1) ? basePath + fileName : basePath + fileName + '.png';
-        res.setEncoding("binary"); //一定要设置response的编码为binary否则会下载下来的图片打不开
-        res.on("data", function (chunk) {
-            imgData += chunk;
-        });
-        res.on("end", function () {
-            // return false;
-            fs.writeFile(filePath, imgData, "binary", function (err) {
-                if (err) {
-                    console.log("down fail", error);
-                } else {
-                    console.log("down success");
-                }
-            });
-        });
-    });
-}
 
 
