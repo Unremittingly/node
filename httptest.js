@@ -21,6 +21,7 @@ var server = http.createServer(function(request,response){
     });
 });
 
+console.log('test');
 //启动监听
 server.listen('9999');
 
