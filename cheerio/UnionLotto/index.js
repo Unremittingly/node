@@ -1,7 +1,7 @@
 const cheerio = require("cheerio");
 const charset = require("superagent-charset");
 const agent = require("superagent");
-const {selectAll,getTime,connectSql} = require('../../common/sqlOperation');
+const {selectAll, getTime, connectSql} = require('../../common/sqlOperation');
 const {getDataForPuppeteer} = require('../../common/getData');
 charset(agent); //
 
@@ -95,7 +95,7 @@ function filterG(html) {
             let fm = $('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
             let fn = $('.c-border div').eq(2).find('p').eq(0).text().replace(/[/\n/\t]/g, '');
             listData['first_money'] = fn.trim();
-            listData['first_num'] =  fm.trim();
+            listData['first_num'] = fm.trim();
             listData['c_date'] = $('.c-border div').eq(0).text();
             listData['period'] = $('.c-border div').eq(0).find('b').text();
         })
@@ -113,7 +113,7 @@ function filterG(html) {
 function insetDataForG(type) {
 
     let url = 'http://www.cwl.gov.cn/kjxx/ssq/';
-    return    getDataForPuppeteer({url: url, type: type}, async function () {
+    return getDataForPuppeteer({url: url, type: type}, async function () {
         //这里面使用原生JS获取数据
         let reds = [];
 
@@ -131,7 +131,7 @@ function insetDataForG(type) {
         }
 
 
-       // await  document.write("<script src='http://libs.baidu.com/jquery/2.1.1/jquery.min.js'><\/script>");
+        // await  document.write("<script src='http://libs.baidu.com/jquery/2.1.1/jquery.min.js'><\/script>");
 
         return {
             red: reds,
@@ -150,10 +150,11 @@ async function insetData(num) {
     // return false;  如果这里成功啦
     let url = 'http://kaijiang.500.com/shtml/ssq/' + num + '.shtml?0_ala_baidu';
     let html = '';
-    agent.get(url).charset('gbk').end( async function (err, res) {
+    console.log('url,url', url);
+    agent.get(url).charset('gbk').end(async function (err, res) {
         if (err) {
             console.log('数据读取失败');
-            let listData =  await insetDataForG(1);
+            let listData = await insetDataForG(1);
             let connect = connectSql();
             addData(listData, connect);
         } else {
@@ -169,13 +170,13 @@ async function insetData(num) {
     })
 }
 
- function addData(data, connect) {
+function addData(data, connect) {
     if (connect) {
 
         let time = parseInt(getTime() / 1000);
         let value = '';
 
-        if(!data){
+        if (!data) {
             return false;
         }
         // return false;
@@ -192,7 +193,7 @@ async function insetData(num) {
                 }
                 connect.end();
             })
-        }catch (e) {
+        } catch (e) {
             console.log('error');
         }
 
@@ -200,29 +201,34 @@ async function insetData(num) {
 }
 
 
-function sendUrl() {
-
+/**
+ * //设置球的期数到文件里面
+ * @param year 年份 格式： 2019  -  19000   2020 - 2020000
+ * @param endNper 结束期数  0-(365/7)*3   0-157
+ */
+function setUnionLottoNperIntoFile(year, endNper) {
+    const endTime = parseInt(year) + parseInt(endNper);
+    const arr = [];
+    console.log('endTime',endTime);
+    for (let i = year; i < endTime; i++) {
+        arr.push(i);
+    }
+    console.log('arr',arr);
+    writeFile(arr);
 }
 
-sendUrl();
-
-// insetData(19015);
 /****
  * 网站不一样  这里是500网
  * 这里是获取所有的  这里递归获取  从select框中获取
  */
-let periods = getPeriodForFile();
-periods = periods[0].concat(periods[1]);
-addDataForPeriod(periods,0);
-function addDataForPeriod(periods, index) {
+function addDataForPeriod(periods, index, successCallback) {
     setTimeout(function () {
         insetData(periods[index]);
         if (index < periods.length) {
             // console.log('读取添加中中。。。，当前期数为：', periods[index]);
-            addDataForPeriod(periods, ++index);
-            // console.log('11');
+            addDataForPeriod(periods, ++index, successCallback);
         } else {
-            console.log('end');
+            successCallback && successCallback('end');
         }
 
     }, 1000);
@@ -236,7 +242,7 @@ function addDataForPeriod(periods, index) {
 function selectUnionLotto() {
     let connect = connectSql();
     if (connect) {
-        selectAll('unionlotto',function (data) {
+        selectAll('unionlotto', function (data) {
             //返回一群数组
             console.log('data', data);
         });
@@ -244,5 +250,8 @@ function selectUnionLotto() {
 
 }
 
+exports.setUnionLottoNperIntoFile = setUnionLottoNperIntoFile;
+exports.addDataForPeriod = addDataForPeriod;
+exports.getPeriodForFile = getPeriodForFile;
 // selectUnionLotto();
 

@@ -111,6 +111,7 @@ function insertDataToDataBase() {
     let searchStr = qs.escape('wold');//这个方法将中文转换成浏览器能识别的
     let url = 'http://www.baidu.com/s?wd=' + searchStr + '&rsv_spt=1&rsv_iqid=0xde0f6c3c000402ed&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=1&oq=aa&inputT=547&rsv_t=94d3Z7tMbG%2BpuEnOPrHr1UamFC8HB4%2FDItvkDQxqcgl9VqrcHCHrYr1wf1iLMCQxg5II&rsv_pq=f47fcffb00042e7a&rsv_sug3=7&rsv_sug1=6&rsv_sug7=100&rsv_sug2=0&rsv_sug4=547&rsv_sug=2';
     let domain = 'http://www.baidu.com/';
+    console.log('url',url);
     getData({url: url}, function (html) {
         return filter(html, domain);
     }, function (data) {
@@ -142,9 +143,9 @@ function updateRank() {
 // deleteD(20);
 
 
-// app.listen('8090', function () {
-//     console.log('服务器启动  监听8090端口,请访问获取百度当前rank排名');
-// });
+app.listen('8090', function () {
+    console.log('服务器启动  监听8090端口,请访问获取百度当前rank排名');
+});
 
 
 

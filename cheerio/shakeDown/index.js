@@ -12,6 +12,7 @@ app.get('/shake',function (req,res) {
     },function (html) {
        return  filter(html,url)
     },function (data) {
+        console.log('data',data);
         res.json({
             'ok':true,
             'data':data,

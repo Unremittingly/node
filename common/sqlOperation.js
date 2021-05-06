@@ -1,19 +1,21 @@
 const mysql = require('mysql');
 let connection = null;
 
+
+const localSql =  {
+    host: 'localhost',
+    port: '3306',
+    user: 'root',
+    password: '123456Zq',
+    database: 'test'
+};
 /****
  * 连接数据库  初始化
  * @param option
  * @returns {Connection}
  */
 const connectMysql = function (option) {
-    let opt = {
-        host: 'localhost',
-        port: '3306',
-        user: 'root',
-        password: '123456Zq',
-        database: 'test'
-    };
+    let opt = localSql;
     opt =  Object.assign(opt,option);
     connection = mysql.createConnection(opt);
     connection.connect();

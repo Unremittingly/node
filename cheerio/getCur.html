@@ -17,10 +17,27 @@
 <body>
 <script src="shakeDown/jquery-3.0.0.min.js"></script>
 <span class="btn" id="getData">获取数据</span>
+<span class="btn" id="insertData">插入数据库</span>
 </body>
+<script src="UnionLotto/index.js"></script>
 <script>
     $('#getData').click(function () {
         getUnionlottoData();
+    });
+    $('#insertData').click(function () {
+        $.ajax({
+            url: 'http://127.0.0.1:9999/insertData',
+            data: {
+                start: 19075,
+                offset:10
+            },
+            success: function (data) {
+                if (data.ok) {
+                    console.log('data', data);
+                    getTodayNumber(data.data);
+                }
+            }
+        })
     });
 
     function getUnionlottoData() {
@@ -31,7 +48,7 @@
             },
             success: function (data) {
                 if (data.ok) {
-                    // console.log('data', data);
+                    console.log('data', data);
                     getTodayNumber(data.data);
                 }
             }

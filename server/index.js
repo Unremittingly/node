@@ -2,6 +2,7 @@
 const path= require('path');
 const express = require('express');
 let sqlOperation= require('../common/sqlOperation');
+const { setUnionLottoNperIntoFile, addDataForPeriod, getPeriodForFile } = require('../cheerio/UnionLotto/index');
 
 const app = express();
 
@@ -28,6 +29,21 @@ app.get('/getData',function (req,res) {
         });
     })
 
+});
+
+app.get('/insertData',function (req,res) {
+    const {start,offset} = req.query;
+    setUnionLottoNperIntoFile(start,offset);
+    setTimeout(()=>{
+        let periods = getPeriodForFile();
+        addDataForPeriod(periods,0,(result)=>{
+            res.json({
+                'ok': true,
+                'name': result,
+                'data': null
+            });
+        })
+    },1000);
 });
 
 app.listen('9999',function () {
